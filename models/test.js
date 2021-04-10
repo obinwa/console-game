@@ -3,16 +3,28 @@ let input = require('prompt-sync')();
 
 let Board = require('./board');
 
+let Player = require("./player");
+
+let player1 = new Player("palyer1", 8, 8);
+let player2 = new Player("player2", 8, 8);
+
+player1.play(player2);
+
+
+
+
 //let newShip = new Ship(1,2,3,2,5);
 
-let x = Number("7H");
-console.log(x);
-console.log(Number.isInteger(x))
+// let x = Number("7H");
+// console.log(x);
+// console.log(Number.isInteger(x))
 
-let board = new Board(8,8);
+// let board = new Board(8,8);
 
-let ship = board.produceShip();
-console.log(ship.toString());
+// console.log(board.getShip().toString());
+
+// let ship = board.makeShip();
+// console.log(ship.toString());
 
 //let position = board.getPosition("Enter position  : ");
 //console.log(position.toString());

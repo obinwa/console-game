@@ -1,40 +1,71 @@
-const Ship = require('./ship');
 const Board = require('./board');
 const Position = require('./position');
+let {getInput} = require('../get-input');
 
-class Player{
+class Player {
   #board;
   #hits;
   #miss;
-  constructor(playerName, boardX, boardY){
-    console.log(`\t\t\t ${playerName}`)
-    this.#board = new Board(boardX,boardY);
+  #name;
+  constructor(playerName, boardX, boardY) {
+    console.log(`\t\t\t ${playerName}`);
+    this.#board = new Board(boardX, boardY);
     this.#hits = 0;
     this.#miss = 0;
+    this.#name = playerName;
   }
 
-  generateRandomPosition(){
-    let x = Math.floor(Math.random() * this.#board.getXdimension());
-    let y = Math.floor(Math.random() * this.#board.getYdimension());
+  generateRandomPosition() {
+    let x = 1 + Math.floor(Math.random() * this.#board.getXdimension());
+    let y = 1 + Math.floor(Math.random() * this.#board.getYdimension());
 
-    return new Position(x,y);
+    return new Position(x, y);
   }
 
-  getBoard(){
+  getBoard() {
     return this.#board;
   }
 
-  getHits(){
+  getHits() {
     return this.#hits;
   }
 
-  getMiss(){
+  getMiss() {
     return this.#miss;
   }
 
-  shoot(playerB){
-    let shotPosition = this.generateRandomPosition();
-    playerB.getBoard().getShip
+  getName(){
+    return this.#name;
   }
 
+  #shoot(playerB) {
+    let shotPosition = this.generateRandomPosition();
+    console.log(`${this.#name} fired a shot at ${String.fromCharCode(shotPosition.getX() + 64)}${shotPosition.getY()}`)
+    let { isHit, numberOfHits } = playerB
+      .getBoard()
+      .getShip()
+      .resolveShot(shotPosition);
+    
+    if(isHit){
+      console.log("HIT!");
+    }
+    else{
+      console.log("MISS")
+    }
+
+    if(numberOfHits >= 3){
+      console.log(`${this.#name} has sunk ${playerB.getName()} battleship`)
+      throw new Error("Game over!");
+    }
+  }
+
+  play(playerB){
+    let shootCommand = getInput(`${this.#name} type in any command to shoot : `);
+    if(shootCommand === 'exit'){
+      throw new Error("Game Over!");
+    }
+    this.#shoot(playerB);
+  }
 }
+
+module.exports = Player;
