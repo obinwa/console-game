@@ -1,8 +1,13 @@
 let Player = require("./models/player");
+let player1Name = "player1";
+let player2Name = "player2";
 
 try {
-  let player1 = new Player("palyer1", 8, 8);
-  let player2 = new Player("player2", 8, 8);
+  console.log(`\t\t ${player1Name} details`);
+  let player1 = new Player(player1Name, 8, 8);
+
+  console.log(`\t\t ${player2Name} details`);
+  let player2 = new Player(player2Name, 8, 8);
 
   let players = [player1, player2];
 

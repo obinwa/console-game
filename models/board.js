@@ -8,12 +8,16 @@ class Board {
   #dimensionY;
 
   constructor(dimensionX, dimensionY, ship) {
-    if (!Number.isInteger(dimensionX || Number.isInteger(dimensionY))) {
-      throw new Error("Invalid dimension for board");
-    }
     this.#dimensionX = dimensionX;
     this.#dimensionY = dimensionY;
+    this.validate();
     this.#ship = ship ? ship : this.makeShip();
+  }
+
+  validate()  {
+    if (!Number.isInteger(this.#dimensionX) || !Number.isInteger(this.#dimensionY)) {
+      throw new Error("Invalid dimension for board");
+    }
   }
 
   getShip() {
@@ -115,7 +119,9 @@ class Board {
     let shipStartPosition = this.getPositionFromInput(
       "Enter ship starting position(e.g A2) : "
     );
-    let shipEndPositon = this.getPositionFromInput("Enter ship end position e.g(A4) : ");
+    let shipEndPositon = this.getPositionFromInput(
+      "Enter ship end position e.g(A4) : "
+    );
 
     try {
       let ship = new Ship(shipAlignment, shipStartPosition, shipEndPositon);
@@ -125,7 +131,6 @@ class Board {
       return null;
     }
   }
-
 }
 
 module.exports = Board;

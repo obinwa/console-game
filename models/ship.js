@@ -1,6 +1,5 @@
 let PositionInput = require('./position');
 
-
 class Ship {
   #alignment;
   #startPosition;

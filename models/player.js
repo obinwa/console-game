@@ -8,8 +8,7 @@ class Player {
   #miss;
   #name;
   constructor(playerName, boardX, boardY, ship) {
-    console.log(`\t\t\t ${playerName}`);
-    this.#board = new Board(boardX, boardY, ship) ;
+    this.#board = new Board(boardX, boardY, ship);
     this.#hits = 0;
     this.#miss = 0;
     this.#name = playerName;
