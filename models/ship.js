@@ -14,9 +14,8 @@ class Ship {
 
     if (!this.validateShipPosition()) {
       //(alignment,startX, endX,startY,endY)){
-      throw new Error("Ship position is invalid!");
+      throw new Error("Ship size is invalid!");
     }
-    return this;
   }
 
   validateShipPosition() {

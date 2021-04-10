@@ -7,9 +7,9 @@ class Player {
   #hits;
   #miss;
   #name;
-  constructor(playerName, boardX, boardY) {
+  constructor(playerName, boardX, boardY, ship) {
     console.log(`\t\t\t ${playerName}`);
-    this.#board = new Board(boardX, boardY);
+    this.#board = new Board(boardX, boardY, ship) ;
     this.#hits = 0;
     this.#miss = 0;
     this.#name = playerName;
@@ -34,34 +34,39 @@ class Player {
     return this.#miss;
   }
 
-  getName(){
+  getName() {
     return this.#name;
   }
 
   #shoot(playerB) {
     let shotPosition = this.generateRandomPosition();
-    console.log(`${this.#name} fired a shot at ${String.fromCharCode(shotPosition.getX() + 64)}${shotPosition.getY()}`)
+    console.log(
+      `${this.#name} fired a shot at ${String.fromCharCode(
+        shotPosition.getX() + 64
+      )}${shotPosition.getY()}`
+    );
     let { isHit, numberOfHits } = playerB
       .getBoard()
       .getShip()
       .resolveShot(shotPosition);
-    
-    if(isHit){
+
+    if (isHit) {
       console.log("HIT!");
-    }
-    else{
-      console.log("MISS")
+    } else {
+      console.log("MISS");
     }
 
-    if(numberOfHits >= 3){
-      console.log(`${this.#name} has sunk ${playerB.getName()} battleship`)
+    if (numberOfHits >= 3) {
+      console.log(`${this.#name} has sunk ${playerB.getName()} battleship`);
       throw new Error("Game over!");
     }
   }
 
-  play(playerB){
-    let shootCommand = getInput(`${this.#name} type in any command to shoot : `);
-    if(shootCommand === 'exit'){
+  play(playerB) {
+    let shootCommand = getInput(
+      `\n${this.#name} type in any command to shoot : `
+    );
+    if (shootCommand === "exit") {
       throw new Error("Game Over!");
     }
     this.#shoot(playerB);
