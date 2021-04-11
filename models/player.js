@@ -42,6 +42,10 @@ class Player {
     return this.#name;
   }
 
+  getAvailablePositions() {
+    return this.#availablePositions;
+  }
+
   /**
    * @param {Player} playerB
    * @param {Position} shotPosition
@@ -66,6 +70,7 @@ class Player {
         [shotPosition.getX()][shotPosition.getY()].setMark("X");
       console.log("HIT!");
     } else {
+      playerB.removeFromAvailablePosition(shotPosition);
       playerB
         .getBoard()
         .getGrid()
@@ -156,8 +161,10 @@ class Player {
    * @param {Player} player
    */
   generateRandomPosition(player) {
-    let index = Math.floor(Math.random() * player.#availablePositions.length);
-    return this.#availablePositions[index];
+    let index = Math.floor(
+      Math.random() * player.getAvailablePositions().length
+    );
+    return player.getAvailablePositions()[index];
   }
 
   /**

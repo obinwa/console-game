@@ -48,6 +48,7 @@ class Board {
     return this.#dimensionY;
   }
 
+  //requires user input
   getShipAlignmentFromInput() {
     let foundRightAlignment = false;
     let shipAlignment;
@@ -72,6 +73,7 @@ class Board {
    * @param {string} queryString
    * @param {number} alignment
    */
+  //requires user input
   getShipPositionFromInput(queryString, alignment) {
     let position = null;
     while (!position) {
@@ -84,6 +86,7 @@ class Board {
   /**
    * @param {string} queryString
    */
+  //requires user input
   getPositionFromInput(queryString) {
     let position = null;
     while (!position) {
@@ -97,6 +100,7 @@ class Board {
    * @param {string} queryString
    * @param {Position[]} positions
    */
+  //requires user input
   matchPositionFromInput(queryString, positions) {
     let match = false;
     let inputPosition = null;
@@ -111,23 +115,60 @@ class Board {
         match = true;
         break;
       }
-      // for (let position of positions) {
-      //   if (
-      //     position.getX() === inputPosition.getX() &&
-      //     position.getY() === inputPosition.getY()
-      //   ) {
-      //     match = true;
-      //     break;
-      //   }
-      // }
     }
     return inputPosition;
+  }
+
+  //requires user input
+  makeShip() {
+    let ship = this.getShipFromInput();
+    while (!ship) {
+      ship = this.getShipFromInput();
+    }
+    return ship;
+  }
+
+  //requires user input
+  getShipFromInput() {
+    console.log(
+      "\nShip should be of size 3, and with horizontal or vertical alignment. Enter 'exit' to end game!\n "
+    );
+
+    let shipAlignment = this.getShipAlignmentFromInput();
+    let shipStartPosition = this.getPositionFromInput(
+      "Enter ship starting position(e.g A2) : "
+    );
+    let shipEndPosition;
+    let validEndPositions = this.getPossibleEndPosition(
+      shipStartPosition,
+      shipAlignment
+    );
+    if (validEndPositions.length === 0) {
+      console.log("Invalid start position");
+      return null;
+    } else if (validEndPositions.length === 1) {
+      shipEndPosition = validEndPositions[0];
+    } else {
+      shipEndPosition = this.matchPositionFromInput(
+        `Enter ship end position  ${validEndPositions[0].getXasChar()}${validEndPositions[0].getY()} or ${validEndPositions[1].getXasChar()}${validEndPositions[1].getY()} : `,
+        validEndPositions
+      );
+    }
+
+    try {
+      let ship = new Ship(shipAlignment, shipStartPosition, shipEndPosition);
+      return ship;
+    } catch (error) {
+      //console.log(error.stack); send to file
+      console.log(error.message);
+      return null;
+    }
   }
 
   /**
    * @param {string} positionString
    */
-  parsePosition(positionString) {
+   parsePosition(positionString) {
     if (positionString === "exit") {
       throw new Error("Game Over!");
     }
@@ -184,50 +225,15 @@ class Board {
     return false;
   }
 
-  makeShip() {
-    let ship = this.getShipFromInput();
-    while (!ship) {
-      ship = this.getShipFromInput();
+  /**
+   * @param {Position} position
+   */
+  isWithinBounds(position) {
+    if (position.getX() >= 0 && position.getX() <= this.#dimensionX && position.getY() >= 0 && position.getY() <= this.#dimensionY) {
+      return true;
     }
-    return ship;
+    return false;
   }
-
-  getShipFromInput() {
-    console.log(
-      "\nShip should be of size 3, and with horizontal or vertical alignment. Enter 'exit' to end game!\n "
-    );
-
-    let shipAlignment = this.getShipAlignmentFromInput();
-    let shipStartPosition = this.getPositionFromInput(
-      "Enter ship starting position(e.g A2) : "
-    );
-    let shipEndPosition;
-    let validEndPositions = this.getPossibleEndPosition(
-      shipStartPosition,
-      shipAlignment
-    );
-    if (validEndPositions.length === 0) {
-      console.log("Invalid start position");
-      return null;
-    } else if (validEndPositions.length === 1) {
-      shipEndPosition = validEndPositions[0];
-    } else {
-      shipEndPosition = this.matchPositionFromInput(
-        `Enter ship end position  ${validEndPositions[0].getXasChar()}${validEndPositions[0].getY()} or ${validEndPositions[1].getXasChar()}${validEndPositions[1].getY()} : `,
-        validEndPositions
-      );
-    }
-
-    try {
-      let ship = new Ship(shipAlignment, shipStartPosition, shipEndPosition);
-      return ship;
-    } catch (error) {
-      //console.log(error.stack); send to file
-      console.log(error.message);
-      return null;
-    }
-  }
-
   /**
    * @param {Position} startPosition
    * @param {number} alignment
@@ -257,25 +263,11 @@ class Board {
 
     let arrayOfPositions = [endPosition1, endPosition2];
     let validPositions = arrayOfPositions.filter((position) =>
-      this.isWithinBound(position)
+      this.isWithinBounds(position)   
     );
     return validPositions;
   }
-
-  /**
-   * @param {Position} position
-   */
-  isWithinBound(position) {
-    if (position.getX() > 8 || position.getX() < 1) {
-      return false;
-    }
-    if (position.getY() > 8 || position.getY() < 1) {
-      return false;
-    }
-
-    return true;
-  }
-
+  
   displayGrid() {
     //display header
     let headerString = "  ";

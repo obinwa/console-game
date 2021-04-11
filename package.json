@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start" : "node ./app/game.js",
-    "test": "jest --runInBand"
+    "test": "jest --modulePathIgnorePatterns models --runInBand"
   },
   "author": "Chidiebere",
   "license": "ISC",
