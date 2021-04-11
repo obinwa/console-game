@@ -44,7 +44,7 @@ class Board {
       }
       if (
         Number.isInteger(Number(shipAlignment)) &&
-        (shipAlignment === "1" || shipAlignment === "2")
+        (shipAlignment === "1" || shipAlignment === "0")
       ) {
         foundRightAlignment = true;
       }
@@ -112,7 +112,7 @@ class Board {
 
   #getShipFromInput() {
     console.log(
-      "\n Ship should be of size 3, and with horizontal or vertical alignemnt. Enter 'exit' to end game!\n "
+      "\nShip should be of size 3, and with horizontal or vertical alignment. Enter 'exit' to end game!\n "
     );
 
     let shipAlignment = this.getShipAlignmentFromInput();

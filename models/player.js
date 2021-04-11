@@ -63,7 +63,7 @@ class Player {
 
   play(playerB) {
     let shootCommand = getInput(
-      `\n${this.#name} type in any command to shoot : `
+      `${this.#name} type in any command to shoot : `
     );
     if (shootCommand === "exit") {
       throw new Error("Game Over!");

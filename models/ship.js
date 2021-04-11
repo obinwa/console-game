@@ -29,7 +29,7 @@ class Ship {
     if (alignment === 1) {
       //vertical alignment
       if (xDiff === 0 && yDiff === 2) return true;
-    } else if (this.alignment === 0) {
+    } else if (alignment === 0) {
       if (xDiff === 2 && yDiff === 0) return true;
     }
     return false;
