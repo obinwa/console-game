@@ -1,3 +1,4 @@
+// @ts-nocheck
 let Board = require("../models/board");
 let Ship = require("../models/ship");
 let Position = require("../models/position");

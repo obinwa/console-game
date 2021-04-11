@@ -5,13 +5,12 @@ let Board = require('./board');
 
 let Player = require("./player");
 
-let player1 = new Player("palyer1", 8, 8);
-let player2 = new Player("player2", 8, 8);
+let player1 = new Player("player1", 8, 8, null);
+let player2 = new Player("player2", 8, 8, null);
 
 player1.play(player2);
-
-
-
+player1.play(player2);
+player1.play(player2);
 
 //let newShip = new Ship(1,2,3,2,5);
 
@@ -19,7 +18,9 @@ player1.play(player2);
 // console.log(x);
 // console.log(Number.isInteger(x))
 
-// let board = new Board(8,8);
+//  let board = new Board(8, 8, null);
+//  console.log(board.getShip().getEndPosition().toString());
+//  board.displayGrid();
 
 // console.log(board.getShip().toString());
 
