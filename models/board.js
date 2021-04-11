@@ -7,8 +7,8 @@ class Board {
   #ship;
   #dimensionX;
   #dimensionY;
-  #grid
-  
+  #grid;
+
   /**
    * @param {number} dimensionX
    * @param {number} dimensionY
@@ -32,7 +32,7 @@ class Board {
     }
   }
 
-  getGrid(){
+  getGrid() {
     return this.#grid;
   }
 
@@ -72,7 +72,7 @@ class Board {
    * @param {string} queryString
    * @param {number} alignment
    */
-  getShipPositionFromInput(queryString,alignment) {
+  getShipPositionFromInput(queryString, alignment) {
     let position = null;
     while (!position) {
       let inputString = getInput(queryString);
@@ -104,15 +104,22 @@ class Board {
       let inputString = getInput(queryString);
       inputPosition = this.parsePosition(inputString);
 
-      if(!inputPosition){
+      if (!inputPosition) {
         continue;
       }
-      for(let position of positions){
-        if(position.getX() === inputPosition.getX() && position.getY() === inputPosition.getY()){
-          match = true;
-          break;
-        }
+      if          (inputPosition.isAmong(positions))          {
+        match = true;
+        break;
       }
+      // for (let position of positions) {
+      //   if (
+      //     position.getX() === inputPosition.getX() &&
+      //     position.getY() === inputPosition.getY()
+      //   ) {
+      //     match = true;
+      //     break;
+      //   }
+      // }
     }
     return inputPosition;
   }
@@ -125,10 +132,12 @@ class Board {
       throw new Error("Game Over!");
     }
     try {
-      if(positionString.length !== 2){
+      if (positionString.length !== 2) {
         return null;
       }
-      let regexString = `[A-${this.#getDimensionXchar()}][1-${this.#dimensionY}]`;
+      let regexString = `[A-${this.getDimensionXchar()}][1-${
+        this.#dimensionY
+      }]`;
       let regex = new RegExp(regexString);
       //let regex = /[A-H][1-8]/;
       let [matchedPositionString] = positionString.match(regex);
@@ -151,14 +160,15 @@ class Board {
       return position;
     } catch (error) {
       console.log(
-        `Invalid input. Enter input from A1 to ${this.#getDimensionXchar()}${this.#dimensionY}; exit to quit game`
+        `Invalid input. Enter input from A1 to ${this.getDimensionXchar()}${
+          this.#dimensionY
+        }; exit to quit game`
       );
       return null;
     }
   }
 
-  // @ts-ignore
-  #getDimensionXchar(){
+  getDimensionXchar() {
     return getAlphabetFromNumber(this.#dimensionX);
   }
 
@@ -191,17 +201,19 @@ class Board {
       "Enter ship starting position(e.g A2) : "
     );
     let shipEndPosition;
-    let validEndPositions = this.getPossibleEndPosition(shipStartPosition, shipAlignment);
-    if(validEndPositions.length === 0){
+    let validEndPositions = this.getPossibleEndPosition(
+      shipStartPosition,
+      shipAlignment
+    );
+    if (validEndPositions.length === 0) {
       console.log("Invalid start position");
       return null;
-    }
-    else if(validEndPositions.length === 1){
+    } else if (validEndPositions.length === 1) {
       shipEndPosition = validEndPositions[0];
-    }
-    else{
-       shipEndPosition = this.matchPositionFromInput(
-        `Enter ship end position  ${validEndPositions[0].getXasChar()}${validEndPositions[0].getY()} or ${validEndPositions[1].getXasChar()}${validEndPositions[1].getY()} : `,validEndPositions
+    } else {
+      shipEndPosition = this.matchPositionFromInput(
+        `Enter ship end position  ${validEndPositions[0].getXasChar()}${validEndPositions[0].getY()} or ${validEndPositions[1].getXasChar()}${validEndPositions[1].getY()} : `,
+        validEndPositions
       );
     }
 
@@ -242,10 +254,10 @@ class Board {
       );
     }
 
-    let arrayOfPositions = [endPosition1,  endPosition2];
+    let arrayOfPositions = [endPosition1, endPosition2];
     let validPositions = arrayOfPositions.filter((position) =>
-        this.isWithinBound(position)
-      );
+      this.isWithinBound(position)
+    );
     return validPositions;
   }
 
@@ -263,22 +275,22 @@ class Board {
     return true;
   }
 
-  displayGrid(){
-    //display header 
+  displayGrid() {
+    //display header
     let headerString = "  ";
-    for(let i = 1; i <= this.#dimensionX; i++){
-      headerString =  headerString.concat(` ${getAlphabetFromNumber(i)}`);
+    for (let i = 1; i <= this.#dimensionX; i++) {
+      headerString = headerString.concat(` ${getAlphabetFromNumber(i)}`);
     }
     console.log(`${headerString} \n`);
-    
+
     //display the rest of the grid with vertical index
     let gridString = "";
-    for(let i = 1; i <= this.#dimensionX; i++){
+    for (let i = 1; i <= this.#dimensionX; i++) {
       let rowString = `${i} `;
-      for(let j = 1; j <= this.#dimensionY; j++){
-        rowString = rowString.concat(` ${this.#grid[j][i].getMark()}`)
+      for (let j = 1; j <= this.#dimensionY; j++) {
+        rowString = rowString.concat(` ${this.#grid[j][i].getMark()}`);
       }
-      rowString = rowString.concat('\n');
+      rowString = rowString.concat("\n");
       gridString = gridString.concat(rowString);
     }
     console.log(gridString);
@@ -288,19 +300,19 @@ class Board {
    * @param {number} x
    * @param {number} y
    */
-  generateGrid(x,y){
+  generateGrid(x, y) {
     let grid = [];
-    for(let i = 1; i <= x; i++){
+    for (let i = 1; i <= x; i++) {
       let row = [];
-      for(let j = 1; j <= y; j++){
-        row[j] = new Position(i,j);
+      for (let j = 1; j <= y; j++) {
+        row[j] = new Position(i, j);
       }
       grid[i] = row;
     }
     return grid;
   }
 
-  markShip(){
+  markShip() {
     let startXposition = this.#ship.getStartPosition().getX();
     let startYposition = this.#ship.getStartPosition().getY();
     let endXposition = this.#ship.getEndPosition().getX();
@@ -312,7 +324,6 @@ class Board {
     boardGrid[startXposition][startYposition].setMark("S");
     boardGrid[midXPosition][midYposition].setMark("S");
     boardGrid[endXposition][endYposition].setMark("S");
-
   }
 }
 

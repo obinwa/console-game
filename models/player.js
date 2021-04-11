@@ -85,7 +85,11 @@ class Player {
    * @param {Player} playerB
    */
   play(playerB) {
-    let shootCommand = this.getShootInput(`${this.#name} type in 'x' to shoot randomly or a valid position to fire at that position or 'exit' to end the game`);
+    let shootCommand = this.getShootInput(
+      `${
+        this.#name
+      } type in 'x' to shoot randomly or a valid position to fire at that position or 'exit' to end the game : `
+    );
     
     if (shootCommand === "random") {
       let shotPosition = this.generateRandomPosition(playerB);
