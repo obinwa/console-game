@@ -27,8 +27,6 @@ class Ship {
   validateShipPosition() {
     // alignment, startPosition, endPosition){
     let alignment = this.#alignment;
-    let startPosition = this.#startPosition;
-    let endPosition = this.#endPosition;
 
     let xDiff = Math.abs(this.#startPosition.getX() - this.#endPosition.getX());
     let yDiff = Math.abs(this.#startPosition.getY() - this.#endPosition.getY());

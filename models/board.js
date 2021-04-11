@@ -1,6 +1,6 @@
 let Ship = require('./ship');
 let Position = require('./position');
-let {getInput} = require('../get-input');
+let { getInput } = require("../app/get-input");
 let {getAlphabetFromNumber} = require('../utility');
 
 class Board {

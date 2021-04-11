@@ -1,4 +1,4 @@
-let Player = require("./models/player");
+let Player = require("../models/player");
 let player1Name = "player1";
 let player2Name = "player2";
 
@@ -18,8 +18,6 @@ try {
 
     activePlayer.play(passivePlayer);
   }
-  
 } catch (error) {
-  console.log("GAME OVER!")
+  console.log("GAME OVER!");
 }
-
