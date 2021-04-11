@@ -107,7 +107,7 @@ class Board {
       if (!inputPosition) {
         continue;
       }
-      if          (inputPosition.isAmong(positions))          {
+      if (inputPosition.isAmong(positions)) {
         match = true;
         break;
       }

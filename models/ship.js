@@ -101,7 +101,7 @@ class Ship {
 
   getMidShipPosition(){
     let x = (this.#startPosition.getX() + this.#endPosition.getX())/2;
-    let y = (this.#endPosition.getY() + this.#endPosition.getY())/2;
+    let y = (this.#startPosition.getY() + this.#endPosition.getY()) / 2;
 
     return new Position(x,y);
   }
