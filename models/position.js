@@ -11,18 +11,18 @@ class Position {
   constructor(x, y) {
     this.#x = x;
     this.#y = y;
-    this.#mark = "E";;
+    this.#mark = "E";
     this.validate();
   }
 
-  getMark(){
+  getMark() {
     return this.#mark;
   }
-  
+
   /**
    * @param {string} mark
    */
-  setMark(mark){
+  setMark(mark) {
     this.#mark = mark;
   }
 
@@ -51,17 +51,15 @@ class Position {
     return [xDiff, yDiff];
   }
 
-  getXasChar(){
-    return getAlphabetFromNumber(this.#x);;
+  getXasChar() {
+    return getAlphabetFromNumber(this.#x);
   }
-
-  
 
   /**
    * @param {Position} position
    */
-  isEqual(position){
-    if(this.#x === position.getX() && this.#y === position.getY()){
+  isEqual(position) {
+    if (this.#x === position.getX() && this.#y === position.getY()) {
       return true;
     }
     return false;
@@ -70,9 +68,9 @@ class Position {
   /**
    * @param {Position[]} positions
    */
-  isAmong(positions){
-    for(let position of positions){
-      if(this.isEqual(position)){
+  isAmong(positions) {
+    for (let position of positions) {
+      if (this.isEqual(position)) {
         return true;
       }
     }

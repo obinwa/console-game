@@ -73,12 +73,11 @@ class Player {
       console.log("MISS");
     }
 
-    playerB.getBoard().displayGrid();
-
     if (numberOfHits >= 3) {
       console.log(`${this.#name} has sunk ${playerB.getName()} battleship`);
       throw new Error("Game over!");
     }
+    return numberOfHits;
   }
 
   /**
@@ -90,7 +89,7 @@ class Player {
         this.#name
       } type in 'x' to shoot randomly or a valid position to fire at that position or 'exit' to end the game : `
     );
-    
+
     if (shootCommand === "random") {
       let shotPosition = this.generateRandomPosition(playerB);
       this.shoot(playerB, shotPosition);
@@ -153,6 +152,9 @@ class Player {
     return arrayOfPositions;
   }
 
+  /**
+   * @param {Player} player
+   */
   generateRandomPosition(player) {
     let index = Math.floor(Math.random() * player.#availablePositions.length);
     return this.#availablePositions[index];

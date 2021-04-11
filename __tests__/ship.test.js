@@ -2,7 +2,6 @@
 let Board = require("../models/board");
 let Ship = require("../models/ship");
 let Position = require("../models/position");
-jest.setTimeout(50000);
 
 describe("validateShipPosition()", () => {
   let startPosition = new Position(1, 1);
@@ -31,6 +30,25 @@ describe("resolveShot()", () => {
     let shotPosition = new Position(1, 2);
     let { isHit, numberOfHits } = ship1.resolveShot(shotPosition);
     expect(isHit).toBe(true);
+  });
+
+  test("shot hit ship  in the same place", () => {
+    let shotPosition = new Position(1, 2);
+    ship1.resolveShot(shotPosition);
+    ship1.resolveShot(shotPosition);
+    ship1.resolveShot(shotPosition);
+    let { isHit, numberOfHits } = ship1.resolveShot(shotPosition);
+    expect(isHit).toBe(true);
+    expect(numberOfHits).toBe(1);
+  });
+
+  test("shot hit ship  in the different place", () => {
+    let shotPosition1 = new Position(1, 2);
+    let shotPosition2 = new Position(1, 3);
+    ship1.resolveShot(shotPosition1);
+    let { isHit, numberOfHits } = ship1.resolveShot(shotPosition2);
+    expect(isHit).toBe(true);
+    expect(numberOfHits).toBe(2);
   });
 
   test("shot did not hit ship", () => {

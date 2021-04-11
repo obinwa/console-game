@@ -159,6 +159,7 @@ class Board {
       let position = new Position(x, y);
       return position;
     } catch (error) {
+      //send error to file
       console.log(
         `Invalid input. Enter input from A1 to ${this.getDimensionXchar()}${
           this.#dimensionY
@@ -221,7 +222,7 @@ class Board {
       let ship = new Ship(shipAlignment, shipStartPosition, shipEndPosition);
       return ship;
     } catch (error) {
-      console.log(error.stack);
+      //console.log(error.stack); send to file
       console.log(error.message);
       return null;
     }

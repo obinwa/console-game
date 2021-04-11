@@ -2,7 +2,6 @@
 let Board = require("../models/board");
 let Ship = require("../models/ship");
 let Position = require("../models/position");
-jest.setTimeout(50000);
 
 describe("parsePosition()", () => {
   let startPosition = new Position(1, 1);
@@ -11,8 +10,9 @@ describe("parsePosition()", () => {
   let board = new Board(8, 8, ship);
 
   test("position out of board grid", () => {
-    let position = board.parsePosition("A9");
-    expect(position).not.toBeTruthy();
+    expect(() => {
+      let position = board.parsePosition("A9");
+    }).toThrow(TypeError);
   });
 
   test("position in board grid", () => {

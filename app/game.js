@@ -17,6 +17,7 @@ try {
     let passivePlayer = players[(turn + 1) % 2];
 
     activePlayer.play(passivePlayer);
+    passivePlayer.getBoard().displayGrid();
   }
 } catch (error) {
   console.log("GAME OVER!");
