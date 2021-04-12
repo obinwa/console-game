@@ -20,10 +20,10 @@ try {
 
     activePlayer.play(passivePlayer);
 	
-	console.log(`\n\n${player2Name} is up!\n`);
-	console.log("Your ship...\n");
+	  console.log(`\n\n${passivePlayer.getName()} is up!\n`);
+	  console.log("Your ship...\n");
     passivePlayer.getBoard().displayGrid();
-	console.log("Your shots...\n");
+	  console.log("Your shots...\n");
     passivePlayer.getOpponentBoard().displayGrid();
 	
   }

@@ -219,7 +219,7 @@ class Board {
    * @param {number} y
    */
   isPositionOnBoard(x, y) {
-    if (x >= 0 && x <= this.#dimensionX && y >= 0 && y <= this.#dimensionY) {
+    if (x >= 1 && x <= this.#dimensionX && y >= 1 && y <= this.#dimensionY) {
       return true;
     }
     return false;
@@ -229,7 +229,12 @@ class Board {
    * @param {Position} position
    */
   isWithinBounds(position) {
-    if (position.getX() >= 0 && position.getX() <= this.#dimensionX && position.getY() > 0 && position.getY() <= this.#dimensionY) {
+    if (
+      position.getX() >= 1 &&
+      position.getX() <= this.#dimensionX &&
+      position.getY() >= 1 &&
+      position.getY() <= this.#dimensionY
+    ) {
       return true;
     }
     return false;
