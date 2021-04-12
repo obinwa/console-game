@@ -19,8 +19,8 @@ class Player {
    */
   constructor(playerName, boardX, boardY, ship) {
     this.#board = new Board(boardX, boardY, ship);
-    this.#opponentBoard = new Board(boardX, boardY, "none");	
-	
+    this.#opponentBoard = new Board(boardX, boardY, "none");
+
     this.#hits = 0;
     this.#miss = 0;
     this.#name = playerName;
@@ -32,9 +32,9 @@ class Player {
   getBoard() {
     return this.#board;
   }
-  
+
   getOpponentBoard() {
-	  return this.#opponentBoard;
+    return this.#opponentBoard;
   }
 
   getHits() {
@@ -58,52 +58,42 @@ class Player {
    * @param {Position} shotPosition
    */
   shoot(playerB, shotPosition) {
-    //let shotPosition = this.generateRandomPosition();
-    console.log(
-      `${
-        this.#name
-      } fired a shot at ${shotPosition.getXasChar()}${shotPosition.getY()}`
-    );
+    //prettier-ignore
+    console.log(` ${this.#name} fired a shot at ${shotPosition.getXasChar()}${shotPosition.getY()}`);
+
     let { isHit, numberOfHits } = playerB
       .getBoard()
       .getShip()
       .resolveShot(shotPosition);
 
-	//Prevent use in randomshot system 
+    //Prevent use in random shot system
     playerB.removeFromAvailablePosition(shotPosition);
-	
+
     if (isHit) {
-	  //Show the hit on the player's Opponent Board
-      this
-        .getOpponentBoard()
+      //Show the hit on the player's Opponent Board
+      this.getOpponentBoard()
         .getGrid()
         [shotPosition.getX()][shotPosition.getY()].setMark("X");
-		
-	  //Show the damaged ship on the opponent's board 
+
+      //Show the damaged ship on the opponent's board
       playerB
         .getBoard()
         .getGrid()
         [shotPosition.getX()][shotPosition.getY()].setMark("/");
 
       console.log("\n\n--------\n> HIT! <\n--------\n\n");
-	  
     } else {
-		
-	  //Show miss on the player's Opponent Board
-      this
-        .getOpponentBoard()
+      //Show miss on the player's Opponent Board
+      this.getOpponentBoard()
         .getGrid()
         [shotPosition.getX()][shotPosition.getY()].setMark("O");
 
-
-	  //Show miss on the opponent's board
+      //Show miss on the opponent's board
       playerB
         .getBoard()
         .getGrid()
         [shotPosition.getX()][shotPosition.getY()].setMark("O");
       console.log("\n\n--------\n> MISS <\n--------\n\n");
-	  
-	  
     }
 
     if (numberOfHits >= 3) {
@@ -117,11 +107,8 @@ class Player {
    * @param {Player} playerB
    */
   play(playerB) {
-    let shootCommand = this.getShootInput(
-      `${
-        this.#name
-      } type in 'x' to shoot randomly or a valid position to fire at that position or 'exit' to end the game : `
-    );
+    //prettier-ignore
+    let shootCommand = this.getShootInput(`${this.#name} type in 'x' to shoot randomly or a valid position to fire at that position or 'exit' to end the game : `);
 
     if (shootCommand === "random") {
       let shotPosition = this.generateRandomPosition(playerB);
@@ -132,7 +119,6 @@ class Player {
       let shotPosition = this.getBoard().parsePosition(shootCommand);
       this.shoot(playerB, shotPosition);
     }
-    //this.shoot(playerB);
   }
 
   /**
@@ -198,6 +184,7 @@ class Player {
   /**
    * @param {Position} positionToRemove
    */
+  //remove position from available positions for which a player can shoot randomly
   removeFromAvailablePosition(positionToRemove) {
     let seen = false;
     let x = positionToRemove.getX();

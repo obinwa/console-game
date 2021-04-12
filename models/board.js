@@ -108,9 +108,11 @@ class Board {
       let inputString = getInput(queryString);
       inputPosition = this.parsePosition(inputString);
 
+      //no position detected from input
       if (!inputPosition) {
         continue;
       }
+      //input position is among valid end positions
       if (inputPosition.isAmong(positions)) {
         match = true;
         break;
@@ -143,11 +145,14 @@ class Board {
       shipStartPosition,
       shipAlignment
     );
+    //no valid end position detected
     if (validEndPositions.length === 0) {
       console.log("Invalid start position");
       return null;
+      // only one valid end position detected
     } else if (validEndPositions.length === 1) {
       shipEndPosition = validEndPositions[0];
+      //two possible end positions detected
     } else {
       shipEndPosition = this.matchPositionFromInput(
         `Enter ship end position  ${validEndPositions[0].getXasChar()}${validEndPositions[0].getY()} or ${validEndPositions[1].getXasChar()}${validEndPositions[1].getY()} : `,
@@ -176,12 +181,12 @@ class Board {
       if (positionString.length !== 2) {
         return null;
       }
-      let regexString = `[A-${this.getDimensionXchar()}][1-${
-        this.#dimensionY
-      }]`;
+      
+      let regexString = `[A-${this.getDimensionXchar()}][1-${this.#dimensionY}]`;// regexString example -> [A-H][1-8]
       let regex = new RegExp(regexString);
-      //let regex = /[A-H][1-8]/;
       let [matchedPositionString] = positionString.match(regex);
+      
+      // string does not match regex
       if (!matchedPositionString) {
         return null;
       }
@@ -189,11 +194,7 @@ class Board {
       let x = matchedPositionString[0].charCodeAt(0) - 64;
 
       if (!this.isPositionOnBoard(x, y)) {
-        console.log(
-          `Values cannot be located on ${this.#dimensionX} * ${
-            this.#dimensionY
-          } board`
-        );
+        console.log(`Values cannot be located on ${this.#dimensionX} * ${this.#dimensionY} board`);
         return null;
       }
 
@@ -201,11 +202,7 @@ class Board {
       return position;
     } catch (error) {
       //send error to file
-      console.log(
-        `Invalid input. Enter input from A1 to ${this.getDimensionXchar()}${
-          this.#dimensionY
-        }; exit to quit game`
-      );
+      console.log(`Invalid input. Enter input from A1 to ${this.getDimensionXchar()}${this.#dimensionY}; exit to quit game`);
       return null;
     }
   }
@@ -246,6 +243,7 @@ class Board {
   getPossibleEndPosition(startPosition, alignment) {
     let endPosition1;
     let endPosition2;
+    //horizontal alignment
     if (alignment === 0) {
       endPosition1 = new Position(
         startPosition.getX() + 2,
@@ -255,7 +253,9 @@ class Board {
         startPosition.getX() - 2,
         startPosition.getY()
       );
-    } else if (alignment === 1) {
+    } 
+    //vertical alignment
+    else if (alignment === 1) {
       endPosition1 = new Position(
         startPosition.getX(),
         startPosition.getY() + 2
@@ -311,19 +311,19 @@ class Board {
   }
 
   markShip() {
-	if(this.#ship != "none") {
-		let startXposition = this.#ship.getStartPosition().getX();
-		let startYposition = this.#ship.getStartPosition().getY();
-		let endXposition = this.#ship.getEndPosition().getX();
-		let endYposition = this.#ship.getEndPosition().getY();
-		let midXPosition = this.#ship.getMidShipPosition().getX();
-		let midYposition = this.#ship.getMidShipPosition().getY();
+    if (this.#ship !== "none") {
+      let startXposition = this.#ship.getStartPosition().getX();
+      let startYposition = this.#ship.getStartPosition().getY();
+      let endXposition = this.#ship.getEndPosition().getX();
+      let endYposition = this.#ship.getEndPosition().getY();
+      let midXPosition = this.#ship.getMidShipPosition().getX();
+      let midYposition = this.#ship.getMidShipPosition().getY();
 
-		let boardGrid = this.#grid;
-		boardGrid[startXposition][startYposition].setMark("S");
-		boardGrid[midXPosition][midYposition].setMark("S");
-		boardGrid[endXposition][endYposition].setMark("S");
-	}
+      let boardGrid = this.#grid;
+      boardGrid[startXposition][startYposition].setMark("S");
+      boardGrid[midXPosition][midYposition].setMark("S");
+      boardGrid[endXposition][endYposition].setMark("S");
+    }
   }
 }
 

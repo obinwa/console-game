@@ -14,6 +14,11 @@ describe("parsePosition()", () => {
     expect(position).not.toBeTruthy();
   });
 
+  test("position out of board grid", () => {
+    let position = board.parsePosition("A0");
+    expect(position).not.toBeTruthy();
+  });
+
   test("position in board grid", () => {
     let position = board.parsePosition("A8");
     expect(position).toBeTruthy();
@@ -34,6 +39,11 @@ describe("isPositionOnBoard(x, y)", () => {
 
   test("points out of board grid", () => {
     let position = board.isPositionOnBoard(1, 9);
+    expect(position).toBe(false);
+  });
+
+  test("points out of board grid", () => {
+    let position = board.isPositionOnBoard(0, 0);
     expect(position).toBe(false);
   });
 

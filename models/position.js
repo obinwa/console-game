@@ -51,6 +51,7 @@ class Position {
     return [xDiff, yDiff];
   }
 
+  //get ASCII alphabet representation
   getXasChar() {
     return getAlphabetFromNumber(this.#x);
   }

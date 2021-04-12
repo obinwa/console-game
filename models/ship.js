@@ -5,14 +5,14 @@ class Ship {
   #startPosition;
   #endPosition;
   #hits;
-  #hitPositions
+  #hitPositions;
   /**
    * @param {number} alignment
    * @param {Position} startPosition
    * @param {Position} endPosition
    */
   constructor(alignment, startPosition, endPosition) {
-    this.#alignment = alignment ; // 1 for vertical; 0 for horizontal
+    this.#alignment = alignment; // 1 for vertical; 0 for horizontal
     this.#startPosition = startPosition;
     this.#endPosition = endPosition;
     this.#hits = 0;
@@ -25,7 +25,6 @@ class Ship {
   }
 
   validateShipPosition() {
-    // alignment, startPosition, endPosition){
     let alignment = this.#alignment;
 
     let xDiff = Math.abs(this.#startPosition.getX() - this.#endPosition.getX());
@@ -43,39 +42,13 @@ class Ship {
   /**
    * @param {Position} shot
    */
+  // determine effect of shot on battleship
   resolveShot(shot) {
-    let isHit = false;
-    if (this.#alignment === 1) {
-      // vertical alignment
-      let yDiff1 = shot.getY() - this.#startPosition.getY();
-      let yDiff2 = shot.getY() - this.#endPosition.getY();
-
-      let direction = yDiff1 * yDiff2;
-
-      if (this.#startPosition.getX() === shot.getX() && direction <= 0 ) {
-        // shot hit ship in different location
-        if(!shot.isAmong(this.#hitPositions)){
-          this.#hits = this.#hits + 1;
-          this.#hitPositions.push(shot);
-        }
-        isHit = true; 
-      }
-    } else if (this.#alignment === 0) {
-      // horizontal alignment
-      let xDiff1 = shot.getX() - this.#startPosition.getX();
-      let xDiff2 = shot.getX() - this.#endPosition.getX();
-
-      let direction = xDiff1 * xDiff2;
-      if (this.#startPosition.getY() === shot.getY() && direction <= 0) {
-        // shot hit ship in different location
-        if(!shot.isAmong(this.#hitPositions)){
-          this.#hits = this.#hits + 1;
-          this.#hitPositions.push(shot);
-        }
-        isHit = true;
-      }
+    let isHit = shot.isAmong(this.getShipPositions());
+    if(isHit)      {
+      this.#hits = this.#hits + 1;
+      this.#hitPositions.push(shot);
     }
-
     return { isHit: isHit, numberOfHits: this.#hits };
   }
 
@@ -85,6 +58,10 @@ class Ship {
 
   getEndPosition() {
     return this.#endPosition;
+  }
+
+  getShipPositions()     {
+    return [this.#startPosition, this.#endPosition, this.getMidShipPosition()];
   }
 
   getAlignment() {
@@ -99,11 +76,11 @@ class Ship {
     this.#hits++;
   }
 
-  getMidShipPosition(){
-    let x = (this.#startPosition.getX() + this.#endPosition.getX())/2;
+  getMidShipPosition() {
+    let x = (this.#startPosition.getX() + this.#endPosition.getX()) / 2;
     let y = (this.#startPosition.getY() + this.#endPosition.getY()) / 2;
 
-    return new Position(x,y);
+    return new Position(x, y);
   }
 
   toString() {
