@@ -229,7 +229,7 @@ class Board {
    * @param {Position} position
    */
   isWithinBounds(position) {
-    if (position.getX() >= 0 && position.getX() <= this.#dimensionX && position.getY() >= 0 && position.getY() <= this.#dimensionY) {
+    if (position.getX() >= 0 && position.getX() <= this.#dimensionX && position.getY() > 0 && position.getY() <= this.#dimensionY) {
       return true;
     }
     return false;
@@ -306,17 +306,19 @@ class Board {
   }
 
   markShip() {
-    let startXposition = this.#ship.getStartPosition().getX();
-    let startYposition = this.#ship.getStartPosition().getY();
-    let endXposition = this.#ship.getEndPosition().getX();
-    let endYposition = this.#ship.getEndPosition().getY();
-    let midXPosition = this.#ship.getMidShipPosition().getX();
-    let midYposition = this.#ship.getMidShipPosition().getY();
+	if(this.#ship != "none") {
+		let startXposition = this.#ship.getStartPosition().getX();
+		let startYposition = this.#ship.getStartPosition().getY();
+		let endXposition = this.#ship.getEndPosition().getX();
+		let endYposition = this.#ship.getEndPosition().getY();
+		let midXPosition = this.#ship.getMidShipPosition().getX();
+		let midYposition = this.#ship.getMidShipPosition().getY();
 
-    let boardGrid = this.#grid;
-    boardGrid[startXposition][startYposition].setMark("S");
-    boardGrid[midXPosition][midYposition].setMark("S");
-    boardGrid[endXposition][endYposition].setMark("S");
+		let boardGrid = this.#grid;
+		boardGrid[startXposition][startYposition].setMark("S");
+		boardGrid[midXPosition][midYposition].setMark("S");
+		boardGrid[endXposition][endYposition].setMark("S");
+	}
   }
 }
 
