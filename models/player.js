@@ -5,6 +5,7 @@ let {getInput} = require('../app/get-input');
 
 class Player {
   #board;
+  #opponentBoard;
   #availablePositions;
   #hits;
   #miss;
@@ -18,6 +19,8 @@ class Player {
    */
   constructor(playerName, boardX, boardY, ship) {
     this.#board = new Board(boardX, boardY, ship);
+    this.#opponentBoard = new Board(boardX, boardY, "none");	
+	
     this.#hits = 0;
     this.#miss = 0;
     this.#name = playerName;
@@ -28,6 +31,10 @@ class Player {
 
   getBoard() {
     return this.#board;
+  }
+  
+  getOpponentBoard() {
+	  return this.#opponentBoard;
   }
 
   getHits() {
@@ -62,20 +69,41 @@ class Player {
       .getShip()
       .resolveShot(shotPosition);
 
+	//Prevent use in randomshot system 
+    playerB.removeFromAvailablePosition(shotPosition);
+	
     if (isHit) {
-      playerB.removeFromAvailablePosition(shotPosition);
+	  //Show the hit on the player's Opponent Board
+      this
+        .getOpponentBoard()
+        .getGrid()
+        [shotPosition.getX()][shotPosition.getY()].setMark("X");
+		
+	  //Show the damaged ship on the opponent's board 
       playerB
         .getBoard()
         .getGrid()
-        [shotPosition.getX()][shotPosition.getY()].setMark("X");
-      console.log("HIT!");
+        [shotPosition.getX()][shotPosition.getY()].setMark("/");
+
+      console.log("\n\n--------\n> HIT! <\n--------\n\n");
+	  
     } else {
-      playerB.removeFromAvailablePosition(shotPosition);
+		
+	  //Show miss on the player's Opponent Board
+      this
+        .getOpponentBoard()
+        .getGrid()
+        [shotPosition.getX()][shotPosition.getY()].setMark("O");
+
+
+	  //Show miss on the opponent's board
       playerB
         .getBoard()
         .getGrid()
         [shotPosition.getX()][shotPosition.getY()].setMark("O");
-      console.log("MISS");
+      console.log("\n\n--------\n> MISS <\n--------\n\n");
+	  
+	  
     }
 
     if (numberOfHits >= 3) {

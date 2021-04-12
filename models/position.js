@@ -11,7 +11,7 @@ class Position {
   constructor(x, y) {
     this.#x = x;
     this.#y = y;
-    this.#mark = "E";
+    this.#mark = "_";
     this.validate();
   }
 

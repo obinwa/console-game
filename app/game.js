@@ -1,4 +1,6 @@
 let Player = require("../models/player");
+
+//In more complete version, user's would enter names 
 let player1Name = "player1";
 let player2Name = "player2";
 
@@ -17,7 +19,13 @@ try {
     let passivePlayer = players[(turn + 1) % 2];
 
     activePlayer.play(passivePlayer);
+	
+	console.log(`\n\n${player2Name} is up!\n`);
+	console.log("Your ship...\n");
     passivePlayer.getBoard().displayGrid();
+	console.log("Your shots...\n");
+    passivePlayer.getOpponentBoard().displayGrid();
+	
   }
 } catch (error) {
   console.log("GAME OVER!");
